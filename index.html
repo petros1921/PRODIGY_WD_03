@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tic-Tac-Toe</title>
+    <link rel="icon" href="tic-tac-toe.png" type="img/x-icon">
+    <link rel="stylesheet" href="styles.css">
+</head>
+<body>
+    <div class="game-container">
+        <h1>Tic-Tac-Toe</h1>
+        <div class="game-board" id="gameBoard">
+            <div class="strike-line" id="strikeLine"></div>
+        </div>
+        <div class="game-info">
+            <select id="gameMode">
+                <option value="human">Two Players</option>
+                <option value="computer">Play Against Computer</option>
+            </select>
+            <p id="message">Player X's turn</p>
+            <button id="restartButton">Restart Game</button>
+        </div>
+    </div>
+    <script src="script.js"></script>
+</body>
+</html>
