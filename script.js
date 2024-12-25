@@ -6,26 +6,26 @@ const strikeLine = document.getElementById('strikeLine');
 const gameModeSelect = document.getElementById('gameMode');
 
 // State Variables
-let board = Array(9).fill('');
-let currentPlayer = 'X';
+let board = Array(9).fill(''); 
+let currentPlayer = 'X'; 
 let isGameActive = true;
-let isAIEnabled = false;
+let isAIEnabled = false; 
 
 const winningCombinations = [
-    [0, 1, 2],
-    [3, 4, 5],
-    [6, 7, 8],
-    [0, 3, 6], 
+    [0, 1, 2], 
+    [3, 4, 5], 
+    [6, 7, 8], 
+    [0, 3, 6],
     [1, 4, 7], 
-    [2, 5, 8], 
-    [0, 4, 8],
-    [2, 4, 6],
+    [2, 5, 8],
+    [0, 4, 8], 
+    [2, 4, 6], 
 ];
 
 // Initialize game
 function initGame() {
-    gameBoard.innerHTML = '';
-    strikeLine.style.transform = 'scaleX(0)';
+    gameBoard.innerHTML = ''; 
+    strikeLine.style.transform = 'scaleX(0)'; 
     board.fill('');
     isGameActive = true;
     currentPlayer = 'X';
@@ -38,7 +38,7 @@ function initGame() {
     for (let i = 0; i < 9; i++) {
         const cell = document.createElement('div');
         cell.classList.add('cell');
-        cell.dataset.index = i;
+        cell.dataset.index = i; 
         cell.addEventListener('click', handleCellClick);
         gameBoard.appendChild(cell);
     }
@@ -67,7 +67,7 @@ function handleCellClick(event) {
         message.textContent = `Player ${currentPlayer}'s turn`;
 
         if (isAIEnabled && currentPlayer === 'O') {
-            setTimeout(aiPlay, 700); 
+            setTimeout(aiPlay, 500); 
         }
     }
 }
@@ -77,7 +77,7 @@ function checkWin() {
     return winningCombinations.some(combination => {
         const [a, b, c] = combination;
         if (board[a] === currentPlayer && board[a] === board[b] && board[a] === board[c]) {
-            drawStrikeLine(combination);
+            drawStrikeLine(combination); 
             return true;
         }
         return false;
@@ -99,14 +99,33 @@ function handleTie() {
 // Restart game
 restartButton.addEventListener('click', initGame);
 
+// Draw a strike line
+function drawStrikeLine(combination) {
+    const [start, middle, end] = combination;
+
+    const startCell = gameBoard.children[start];
+    const endCell = gameBoard.children[end];
+
+    const startX = startCell.offsetLeft + startCell.offsetWidth / 2;
+    const startY = startCell.offsetTop + startCell.offsetHeight / 2;
+    const endX = endCell.offsetLeft + endCell.offsetWidth / 2;
+    const endY = endCell.offsetTop + endCell.offsetHeight / 2;
+
+    const angle = Math.atan2(endY - startY, endX - startX) * (180 / Math.PI); 
+    const distance = Math.hypot(endX - startX, endY - startY);
+
+    strikeLine.style.width = `${distance}px`;
+    strikeLine.style.transform = `translate(${startX}px, ${startY}px) rotate(${angle}deg) scaleX(1)`;
+}
 
 // AI Logic
 function aiPlay() {
-    const emptyCells = board.map((value, index) => (value === '' ? index : null)).filter(value => value !== null);
+    const emptyCells = board.map((val, index) => (val === '' ? index : null)).filter(val => val !== null);
+
     const randomIndex = emptyCells[Math.floor(Math.random() * emptyCells.length)];
     const cell = gameBoard.children[randomIndex];
     cell.click(); 
 }
 
-// Initialize game
+// Initialize game on page load
 initGame();
